@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,7 +51,11 @@ import jakarta.persistence.Id;
 public class OrderHeader extends BaseEntity {
 	
 	private String customer;
+
+	@Embedded
 	private Address shippingAddress;
+
+	@Embedded
 	private Address billToAddress;
 
 
