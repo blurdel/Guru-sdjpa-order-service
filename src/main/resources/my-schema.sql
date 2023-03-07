@@ -12,5 +12,6 @@ create table order_header
     bill_to_state varchar(30),
     bill_to_zip_code varchar(30),
     order_status varchar(30),
-    created_date timestamp
+    created_date timestamp,
+    last_modified_date timestamp
 ) engine = InnoDB;
