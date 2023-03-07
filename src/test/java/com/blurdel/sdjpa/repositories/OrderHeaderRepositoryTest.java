@@ -1,5 +1,6 @@
 package com.blurdel.sdjpa.repositories;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,11 @@ public class OrderHeaderRepositoryTest {
 
         assertNotNull(fetched);
         assertNotNull(fetched.getId());
+
+        assertAll(
+                () -> assertNotNull(fetched),
+                () -> assertNotNull(fetched.getId())
+        );
     }
     
 }
