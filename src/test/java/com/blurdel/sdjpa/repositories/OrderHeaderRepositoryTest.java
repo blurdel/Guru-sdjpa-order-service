@@ -29,18 +29,27 @@ public class OrderHeaderRepositoryTest {
     void testSaveOrderWIthLines() {
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setCustomer("New Customer");
-        OrderHeader saved = orderHeaderRepo.save(orderHeader);
+
 
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
 
+        // Here we set the relationship @OneToMany and @ManyToOne
         orderHeader.setOrderLines(Set.of(orderLine));
         orderLine.setOrderHeader(orderHeader);
+
+        OrderHeader saved = orderHeaderRepo.save(orderHeader);
 
         assertNotNull(saved);
         assertNotNull(saved.getId());
         assertNotNull(saved.getOrderLines());
         assertEquals(saved.getOrderLines().size(), 1);
+
+
+        OrderHeader fetched = orderHeaderRepo.getById(saved.getId());
+
+        assertNotNull(fetched);
+        assertEquals(fetched.getOrderLines().size(), 1);
     }
 	
     @Test
