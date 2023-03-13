@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS=0;
+
 drop table if exists order_header;
 create table order_header
 (
@@ -34,5 +36,10 @@ create table order_line
     order_header_id bigint,
     created_date timestamp,
     last_modified_date timestamp,
-    constraint order_header_pk FOREIGN KEY (order_header_id) references order_header(id)
+    product_id bigint,
+    constraint order_header_pk FOREIGN KEY (order_header_id) references order_header(id),
+    constraint order_line_product_fk FOREIGN KEY (product_id) references product(id)
 ) engine = InnoDB;
+
+
+SET FOREIGN_KEY_CHECKS=1;

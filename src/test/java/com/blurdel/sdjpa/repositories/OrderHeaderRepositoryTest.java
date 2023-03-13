@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.blurdel.sdjpa.orderservice.domain.OrderLine;
+import com.blurdel.sdjpa.orderservice.domain.Product;
+import com.blurdel.sdjpa.orderservice.domain.ProductStatus;
+import com.blurdel.sdjpa.orderservice.repositories.ProductRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -24,15 +28,27 @@ public class OrderHeaderRepositoryTest {
 	@Autowired
     OrderHeaderRepository orderHeaderRepo;
 
+    @Autowired
+    ProductRepository productRepo;
+
+    Product product;
+
+    @BeforeEach
+    void setUp() {
+        Product newProd = new Product();
+        newProd.setProductStatus(ProductStatus.NEW);
+        newProd.setDescription("test product");
+        product = productRepo.saveAndFlush(newProd);
+    }
 
     @Test
     void testSaveOrderWIthLines() {
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setCustomer("New Customer");
 
-
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
+        orderLine.setProduct(product);
 
         // Here we set the relationship @OneToMany and @ManyToOne
         orderHeader.setOrderLines(Set.of(orderLine));
