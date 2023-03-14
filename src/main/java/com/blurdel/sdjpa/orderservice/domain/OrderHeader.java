@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.CascadeType;
@@ -13,9 +12,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 
@@ -56,7 +53,8 @@ import jakarta.persistence.OneToMany;
 })
 public class OrderHeader extends BaseEntity {
 
-    private String customer;
+    @ManyToOne
+    private Customer customer;
 
     @Embedded
     private Address shippingAddress;
@@ -79,11 +77,11 @@ public class OrderHeader extends BaseEntity {
         orderLine.setOrderHeader(this);
     }
 
-    public String getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(String customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
@@ -125,11 +123,11 @@ public class OrderHeader extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         OrderHeader that = (OrderHeader) o;
-        return Objects.equals(customer, that.customer) && Objects.equals(shippingAddress, that.shippingAddress) && Objects.equals(billToAddress, that.billToAddress) && orderStatus == that.orderStatus && Objects.equals(orderLines, that.orderLines);
+        return Objects.equals(customer, that.customer) && Objects.equals(shippingAddress, that.shippingAddress) && Objects.equals(billToAddress, that.billToAddress) && orderStatus == that.orderStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), customer, shippingAddress, billToAddress, orderStatus, orderLines);
+        return Objects.hash(super.hashCode(), customer, shippingAddress, billToAddress, orderStatus);
     }
 }

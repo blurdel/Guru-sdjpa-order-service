@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.blurdel.sdjpa.orderservice.domain.Customer;
 import com.blurdel.sdjpa.orderservice.domain.OrderLine;
 import com.blurdel.sdjpa.orderservice.domain.Product;
 import com.blurdel.sdjpa.orderservice.domain.ProductStatus;
+import com.blurdel.sdjpa.orderservice.repositories.CustomerRepository;
 import com.blurdel.sdjpa.orderservice.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,9 @@ public class OrderHeaderRepositoryTest {
     OrderHeaderRepository orderHeaderRepo;
 
     @Autowired
+    CustomerRepository customerRepo;
+
+    @Autowired
     ProductRepository productRepo;
 
     Product product;
@@ -44,15 +49,19 @@ public class OrderHeaderRepositoryTest {
     @Test
     void testSaveOrderWIthLines() {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("New Customer");
+
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer");
+        orderHeader.setCustomer(customer);
+        Customer savedCustomer = customerRepo.save(customer);
+
+        orderHeader.setCustomer(savedCustomer);
 
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
         orderLine.setProduct(product);
 
-        // Here we set the relationship @OneToMany and @ManyToOne
-        //orderHeader.setOrderLines(Set.of(orderLine));
-        //orderLine.setOrderHeader(orderHeader);
+        // Here we use the helper method to set the relationship @OneToMany and @ManyToOne
         orderHeader.addOrderLine(orderLine);
 
         OrderHeader saved = orderHeaderRepo.save(orderHeader);
@@ -72,7 +81,13 @@ public class OrderHeaderRepositoryTest {
     @Test
     void testSaveOrder() {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("New Customer");
+
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer");
+        orderHeader.setCustomer(customer);
+        Customer savedCustomer = customerRepo.save(customer);
+
+        orderHeader.setCustomer(savedCustomer);
         OrderHeader saved = orderHeaderRepo.save(orderHeader);
 
         assertNotNull(saved);
