@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.blurdel.sdjpa.orderservice.domain.Customer;
+import com.blurdel.sdjpa.orderservice.domain.OrderApproval;
 import com.blurdel.sdjpa.orderservice.domain.OrderLine;
 import com.blurdel.sdjpa.orderservice.domain.Product;
 import com.blurdel.sdjpa.orderservice.domain.ProductStatus;
 import com.blurdel.sdjpa.orderservice.repositories.CustomerRepository;
+import com.blurdel.sdjpa.orderservice.repositories.OrderApprovalRepository;
 import com.blurdel.sdjpa.orderservice.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,9 @@ public class OrderHeaderRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepo;
+
+    @Autowired
+    OrderApprovalRepository orderApprovalRepo;
 
     @Autowired
     ProductRepository productRepo;
@@ -88,6 +93,16 @@ public class OrderHeaderRepositoryTest {
         Customer savedCustomer = customerRepo.save(customer);
 
         orderHeader.setCustomer(savedCustomer);
+
+        OrderLine orderLine = new OrderLine();
+        orderLine.setQuantityOrdered(5);
+        orderLine.setProduct(product);
+
+        OrderApproval approval = new OrderApproval();
+        approval.setApprovedBy("me");
+        OrderApproval savedApproval = orderApprovalRepo.save(approval);
+        orderHeader.setOrderApproval(savedApproval);
+
         OrderHeader saved = orderHeaderRepo.save(orderHeader);
 
         assertNotNull(saved);
