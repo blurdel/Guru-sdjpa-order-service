@@ -51,8 +51,9 @@ public class OrderHeaderRepositoryTest {
         orderLine.setProduct(product);
 
         // Here we set the relationship @OneToMany and @ManyToOne
-        orderHeader.setOrderLines(Set.of(orderLine));
-        orderLine.setOrderHeader(orderHeader);
+        //orderHeader.setOrderLines(Set.of(orderLine));
+        //orderLine.setOrderHeader(orderHeader);
+        orderHeader.addOrderLine(orderLine);
 
         OrderHeader saved = orderHeaderRepo.save(orderHeader);
 
