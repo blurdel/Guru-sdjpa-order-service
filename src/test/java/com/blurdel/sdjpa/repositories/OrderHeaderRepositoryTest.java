@@ -3,6 +3,8 @@ package com.blurdel.sdjpa.repositories;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.blurdel.sdjpa.orderservice.domain.Customer;
 import com.blurdel.sdjpa.orderservice.domain.OrderApproval;
@@ -10,8 +12,8 @@ import com.blurdel.sdjpa.orderservice.domain.OrderLine;
 import com.blurdel.sdjpa.orderservice.domain.Product;
 import com.blurdel.sdjpa.orderservice.domain.ProductStatus;
 import com.blurdel.sdjpa.orderservice.repositories.CustomerRepository;
-import com.blurdel.sdjpa.orderservice.repositories.OrderApprovalRepository;
 import com.blurdel.sdjpa.orderservice.repositories.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,6 @@ import org.springframework.test.context.ActiveProfiles;
 import com.blurdel.sdjpa.orderservice.domain.OrderHeader;
 import com.blurdel.sdjpa.orderservice.repositories.OrderHeaderRepository;
 
-import java.util.Set;
 
 @ActiveProfiles("mysql")
 @DataJpaTest
@@ -116,5 +117,31 @@ public class OrderHeaderRepositoryTest {
                 () -> assertNotNull(fetched.getId())
         );
     }
-    
+
+    @Test
+    void testDeleteCascade() {
+        OrderHeader orderHeader = new OrderHeader();
+
+        Customer customer = new Customer();
+        customer.setCustomerName("new Customer");
+        orderHeader.setCustomer(customerRepo.save(customer));
+
+        OrderLine orderLine = new OrderLine();
+        orderLine.setQuantityOrdered(3);
+        orderLine.setProduct(product);
+
+        orderHeader.addOrderLine(orderLine);
+        OrderHeader savedOrder = orderHeaderRepo.saveAndFlush(orderHeader);
+
+        System.out.println("order saved and flushed");
+
+        orderHeaderRepo.deleteById(savedOrder.getId());
+        orderHeaderRepo.flush();
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            OrderHeader fetched = orderHeaderRepo.getById(savedOrder.getId());
+            assertNull(fetched);
+        });
+    }
+
 }
