@@ -117,9 +117,9 @@ public class OrderHeader extends BaseEntity {
         return orderLines;
     }
 
-    public void setOrderLines(Set<OrderLine> orderLines) {
-        this.orderLines = orderLines;
-    }
+//    public void setOrderLines(Set<OrderLine> orderLines) {
+//        this.orderLines = orderLines;
+//    }
 
     public OrderApproval getOrderApproval() {
         return orderApproval;
