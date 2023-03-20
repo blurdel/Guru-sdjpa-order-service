@@ -12,9 +12,12 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 @Entity
@@ -54,7 +57,7 @@ import jakarta.persistence.OneToOne;
 })
 public class OrderHeader extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
     @Embedded
@@ -66,10 +69,12 @@ public class OrderHeader extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<OrderLine> orderLines;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "orderHeader")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Fetch(FetchMode.SELECT)
     private OrderApproval orderApproval;
 
 

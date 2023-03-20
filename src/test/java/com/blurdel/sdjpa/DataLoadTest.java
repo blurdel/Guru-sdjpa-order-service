@@ -18,8 +18,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @ActiveProfiles("mysql")
 @DataJpaTest
@@ -41,6 +43,27 @@ public class DataLoadTest {
     @Autowired
     ProductRepository productRepository;
 
+
+    @Test
+    void testN_PlusOneProblem() {
+
+        Customer customer = customerRepository.findCustomerByCustomerNameIgnoreCase(TEST_CUSTOMER).get();
+
+        IntSummaryStatistics totalOrdered = orderHeaderRepository.findAllByCustomer(customer).stream()
+                .flatMap(orderHeader -> orderHeader.getOrderLines().stream())
+                .collect(Collectors.summarizingInt(ol -> ol.getQuantityOrdered()));
+
+        System.out.println("total ordered: " + totalOrdered.getSum());
+    }
+
+    @Test
+    void testLazyVsEager() {
+        OrderHeader orderHeader = orderHeaderRepository.getById(24383L);
+
+        System.out.println("Order id is: " + orderHeader.getId());
+
+        System.out.println("Customer name is: " + orderHeader.getCustomer().getCustomerName());
+    }
 
     @Disabled
     @Rollback(value = false)
