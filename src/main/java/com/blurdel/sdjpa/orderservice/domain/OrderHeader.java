@@ -16,6 +16,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Version;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -57,6 +58,9 @@ import org.hibernate.annotations.FetchMode;
 })
 public class OrderHeader extends BaseEntity {
 
+    @Version
+    private Integer version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
@@ -84,6 +88,14 @@ public class OrderHeader extends BaseEntity {
         }
         orderLines.add(orderLine);
         orderLine.setOrderHeader(this);
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public Customer getCustomer() {

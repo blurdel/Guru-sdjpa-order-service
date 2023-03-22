@@ -15,8 +15,12 @@ create table order_header
     bill_to_zip_code varchar(30),
     order_status varchar(30),
     created_date timestamp,
-    last_modified_date timestamp
+    last_modified_date timestamp,
+    version integer not null default 0,
 ) engine = InnoDB;
+-- alter table order_header add column version integer;
+-- update order_header set version = 0 where version is null;
+
 
 drop table if exists product;
 create table product
@@ -37,9 +41,13 @@ create table order_line
     created_date timestamp,
     last_modified_date timestamp,
     product_id bigint,
+    version integer not null default 0,
     constraint order_header_pk FOREIGN KEY (order_header_id) references order_header(id),
     constraint order_line_product_fk FOREIGN KEY (product_id) references product(id)
 ) engine = InnoDB;
+-- alter table order_line add column version integer;
+-- update order_line set version = 0 where version is null;
+
 
 drop table if exists category;
 create table category (
@@ -109,7 +117,7 @@ create table customer
     email              varchar(255),
     created_date       timestamp,
     last_modified_date timestamp,
-    version integer
+    version integer not null default 0
 );
 -- alter table customer add column version integer;
 

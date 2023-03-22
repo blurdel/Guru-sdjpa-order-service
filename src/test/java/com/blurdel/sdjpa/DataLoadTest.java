@@ -52,7 +52,7 @@ public class DataLoadTest {
      */
     @Test
     void testDBLock() {
-        Long id = 55l;
+        Long id = 101L;
 
         OrderHeader orderHeader = orderHeaderRepository.findById(id).get();
 
