@@ -108,8 +108,11 @@ create table customer
     phone              varchar(20),
     email              varchar(255),
     created_date       timestamp,
-    last_modified_date timestamp
+    last_modified_date timestamp,
+    version integer
 );
+-- alter table customer add column version integer;
+
 
 alter table order_header
     add constraint order_customer_fk

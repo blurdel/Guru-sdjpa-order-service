@@ -1,7 +1,9 @@
 package com.blurdel.sdjpa.orderservice.bootstrap;
 
 
+import com.blurdel.sdjpa.orderservice.domain.Customer;
 import com.blurdel.sdjpa.orderservice.domain.OrderHeader;
+import com.blurdel.sdjpa.orderservice.repositories.CustomerRepository;
 import com.blurdel.sdjpa.orderservice.repositories.OrderHeaderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class BootStrap implements CommandLineRunner {
 
 //    @Autowired
 //    OrderHeaderRepository orderHeaderRepo;
+
+    @Autowired
+    CustomerRepository customerRepo;
 
     @Autowired
     BootstrapOrderService bootstrapOrderService;
@@ -41,6 +46,14 @@ public class BootStrap implements CommandLineRunner {
         System.out.println("BootStrap was called");
 //        readOrderData();
         bootstrapOrderService.readOrderData();
+
+        Customer customer = new Customer();
+        customer.setCustomerName("Testing Version");
+        Customer saved = customerRepo.save(customer);
+
+        System.out.println("Version is " + saved.getVersion());
+
+        customerRepo.deleteById(saved.getId());
     }
 
 }
