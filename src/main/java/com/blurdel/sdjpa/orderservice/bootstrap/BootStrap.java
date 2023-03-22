@@ -50,8 +50,15 @@ public class BootStrap implements CommandLineRunner {
         Customer customer = new Customer();
         customer.setCustomerName("Testing Version");
         Customer saved = customerRepo.save(customer);
-
         System.out.println("Version is " + saved.getVersion());
+
+        saved.setCustomerName("Testing Version 2");
+        Customer saved2 =  customerRepo.save(saved);
+        System.out.println("Version is " + saved2.getVersion());
+
+        saved2.setCustomerName("Testing Version 3");
+        Customer saved3 = customerRepo.save(saved2);
+        System.out.println("Version is " + saved3.getVersion());
 
         customerRepo.deleteById(saved.getId());
     }
