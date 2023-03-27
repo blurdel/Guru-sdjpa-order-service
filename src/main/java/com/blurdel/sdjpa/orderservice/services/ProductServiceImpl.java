@@ -3,6 +3,7 @@ package com.blurdel.sdjpa.orderservice.services;
 import com.blurdel.sdjpa.orderservice.domain.Product;
 import com.blurdel.sdjpa.orderservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -19,6 +20,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.saveAndFlush(product);
     }
 
+    @Transactional
     @Override
     public Product updateQOH(Long id, Integer quantityOnHand) {
         Product fetched = productRepo.findById(id)

@@ -3,8 +3,11 @@ package com.blurdel.sdjpa.orderservice.bootstrap;
 
 import com.blurdel.sdjpa.orderservice.domain.Customer;
 import com.blurdel.sdjpa.orderservice.domain.OrderHeader;
+import com.blurdel.sdjpa.orderservice.domain.Product;
+import com.blurdel.sdjpa.orderservice.domain.ProductStatus;
 import com.blurdel.sdjpa.orderservice.repositories.CustomerRepository;
 import com.blurdel.sdjpa.orderservice.repositories.OrderHeaderRepository;
+import com.blurdel.sdjpa.orderservice.services.ProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,6 +30,9 @@ public class BootStrap implements CommandLineRunner {
     @Autowired
     BootstrapOrderService bootstrapOrderService;
 
+    @Autowired
+    ProductService productService;
+
 //    @Transactional
 //    public void readOrderData() {
 //        OrderHeader orderHeader = orderHeaderRepo.findById(101L).get(); // implicit transaction
@@ -40,10 +46,24 @@ public class BootStrap implements CommandLineRunner {
 //        }));
 //    }
 
+    private void uppdateProduct() {
+        Product product = new Product();
+        product.setDescription("My Product");
+        product.setProductStatus(ProductStatus.NEW);
+
+        Product saved = productService.saveProduct(product);
+
+        Product saved2 = productService.updateQOH(saved.getId(), 25);
+
+        System.out.println("Updated QOH: " + saved2.getQuantityOnHand());
+    }
 
     @Override
     public void run(String... args) throws Exception {
         System.out.println("BootStrap was called");
+
+        uppdateProduct();
+
 //        readOrderData();
         bootstrapOrderService.readOrderData();
 
