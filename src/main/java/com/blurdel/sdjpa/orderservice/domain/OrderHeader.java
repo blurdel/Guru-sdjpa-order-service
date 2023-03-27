@@ -59,7 +59,7 @@ import org.hibernate.annotations.FetchMode;
 public class OrderHeader extends BaseEntity {
 
     @Version
-    private Integer version;
+    private Integer version; // Make sure column defaults to null!
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;

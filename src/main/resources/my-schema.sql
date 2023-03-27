@@ -28,9 +28,12 @@ create table product
     id bigint not null auto_increment primary key,
     description varchar(100),
     product_status varchar(20),
+    quantity_on_hand integer default 0,
     created_date timestamp,
-    last_modified_date timestamp
+    last_modified_date timestamp,
 ) engine = InnoDB;
+-- alter table product add column quantity_on_hand integer default 0;
+
 
 drop table if exists order_line;
 create table order_line

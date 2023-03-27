@@ -43,4 +43,19 @@ class ProductRepositoryTest {
         assertNotNull(fetched.getLastModifiedDate());
     }
 
+    @Test
+    void addAndUpdateProduct() {
+        Product product = new Product();
+        product.setDescription("My Product");
+        product.setProductStatus(ProductStatus.NEW);
+
+        Product saved = productRepo.saveAndFlush(product);
+
+        saved.setQuantityOnHand(25);
+
+        Product saved2 = productRepo.saveAndFlush(saved);
+
+        System.out.println("Quantity on hand: " + saved2.getQuantityOnHand());
+    }
+
 }

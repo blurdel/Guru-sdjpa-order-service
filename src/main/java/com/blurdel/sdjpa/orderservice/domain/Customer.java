@@ -20,7 +20,7 @@ public class Customer extends BaseEntity {
     private String email;
 
     @Version
-    private Integer version;
+    private Integer version; // Make sure column defaults to null!
 
     @OneToMany(mappedBy = "customer")
     private Set<OrderHeader> orders = new LinkedHashSet<>();
