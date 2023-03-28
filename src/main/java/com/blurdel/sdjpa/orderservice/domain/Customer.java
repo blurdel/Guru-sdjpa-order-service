@@ -4,6 +4,9 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -11,12 +14,18 @@ import java.util.Set;
 @Entity
 public class Customer extends BaseEntity {
 
+    @Size(max = 50)
     private String customerName;
 
+    @Valid  // Needs to be added for Embedded properties if you want validation
     @Embedded
     private Address address;
 
+    @Size(max = 20)
     private String phone;
+
+    @Email
+    @Size(max = 255)
     private String email;
 
     @Version

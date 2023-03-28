@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.blurdel.sdjpa.orderservice.domain.Address;
 import com.blurdel.sdjpa.orderservice.domain.Customer;
 import com.blurdel.sdjpa.orderservice.domain.OrderApproval;
 import com.blurdel.sdjpa.orderservice.domain.OrderLine;
@@ -87,6 +88,13 @@ public class OrderHeaderRepositoryTest {
 
         Customer customer = new Customer();
         customer.setCustomerName("New Customer");
+        customer.setPhone("0123456789");
+        customer.setEmail("zoey@gmail.com");
+
+        Address address = new Address();
+        address.setCity("0123456789");
+        customer.setAddress(address);
+
         orderHeader.setCustomer(customer);
         Customer savedCustomer = customerRepo.save(customer);
 

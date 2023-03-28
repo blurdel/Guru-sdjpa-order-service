@@ -2,16 +2,12 @@ package com.blurdel.sdjpa.orderservice.bootstrap;
 
 
 import com.blurdel.sdjpa.orderservice.domain.Customer;
-import com.blurdel.sdjpa.orderservice.domain.OrderHeader;
 import com.blurdel.sdjpa.orderservice.domain.Product;
 import com.blurdel.sdjpa.orderservice.domain.ProductStatus;
 import com.blurdel.sdjpa.orderservice.repositories.CustomerRepository;
-import com.blurdel.sdjpa.orderservice.repositories.OrderHeaderRepository;
 import com.blurdel.sdjpa.orderservice.services.ProductService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.objenesis.ObjenesisHelper;
 import org.springframework.stereotype.Component;
 
 @Component
